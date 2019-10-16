@@ -5,6 +5,9 @@ const path = require("path");
 const socketio = require("socket.io");
 const http = require("http");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const routes = require("./routes");
 
 const app = express();
@@ -15,7 +18,7 @@ const io = socketio(server);
 const connectedUsers = {};
 
 mongoose.connect(
-  "mongodb+srv://omnistack:vROlOotmLP0EtDfc@omnistack-9-dufzg.mongodb.net/semana09?retryWrites=true&w=majority",
+  process.env.MONGO_URI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -39,4 +42,4 @@ app.use("/files", express.static(path.resolve(__dirname, "..", "uploads")));
 
 app.use(routes);
 
-server.listen(3333);
+server.listen(process.env.PORT || 3333);
